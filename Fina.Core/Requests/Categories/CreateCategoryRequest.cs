@@ -10,7 +10,7 @@ namespace Fina.Core.Requests.Categories
     {
         [Required(ErrorMessage = "Titulo Inválido")]
         [MaxLength(80, ErrorMessage = "I Titulo deve conter no máximo 80 caracteres")]
-        public string Titulo { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Descrição inválida")]
         public string Description{ get; set; } = string.Empty;
