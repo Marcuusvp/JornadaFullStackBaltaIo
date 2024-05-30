@@ -12,14 +12,14 @@ namespace Fina.Api.Endpoints.Transactions
     {
         public static void Map(IEndpointRouteBuilder app)
         {
-            app.MapPost("/", CreateAsync).WithName("Categories: Create").WithSummary("Cria uma nova transação").WithOrder(1).Produces<Response<Transaction?>>();
-            app.MapDelete("/{id}", DeleteAsync).WithName("Categories: Delete").WithSummary("Delete uma transação").WithOrder(3).Produces<Response<Transaction?>>();
-            app.MapGet("/", GetAllAsync).WithName("Categories: Get By Period").WithSummary("Obtem todas transações em um periodo de tempo").WithOrder(2).Produces<Response<Transaction?>>();
-            app.MapGet("/{id}", GetByIdAsync).WithName("Categories: Get by id").WithSummary("Obtem uma transação").WithOrder(4).Produces<Response<Transaction?>>();
-            app.MapPut("/{id}", UpdateAsync).WithName("Categories: Update").WithSummary("Atualiza uma transação").WithOrder(5).Produces<Response<Transaction?>>();
+            app.MapPost("/", CreateTransactionAsync).WithName("Transactions: Create").WithSummary("Cria uma nova transação").WithOrder(1).Produces<Response<Transaction?>>();
+            app.MapDelete("/{id}", DeleteTransactionAsync).WithName("Transactions: Delete").WithSummary("Delete uma transação").WithOrder(3).Produces<Response<Transaction?>>();
+            app.MapGet("/", GetTransactionAllAsync).WithName("Transactions: Get By Period").WithSummary("Obtem todas transações em um periodo de tempo").WithOrder(2).Produces<Response<Transaction?>>();
+            app.MapGet("/{id}", GetTransactionByIdAsync).WithName("Transactions: Get by id").WithSummary("Obtem uma transação").WithOrder(4).Produces<Response<Transaction?>>();
+            app.MapPut("/{id}", UpdateTransactionAsync).WithName("Transactions: Update").WithSummary("Atualiza uma transação").WithOrder(5).Produces<Response<Transaction?>>();
         }
 
-        private static async Task<IResult> CreateAsync(ITransactionHandler handler, CreateTransactionRequest request)
+        private static async Task<IResult> CreateTransactionAsync(ITransactionHandler handler, CreateTransactionRequest request)
         {
             request.UserId = ApiConfiguration.UserId;
             var response = await handler.CreateAsync(request);
@@ -28,7 +28,7 @@ namespace Fina.Api.Endpoints.Transactions
                 : TypedResults.BadRequest();
         }
 
-        private static async Task<IResult> DeleteAsync(ITransactionHandler handler, long id)
+        private static async Task<IResult> DeleteTransactionAsync(ITransactionHandler handler, long id)
         {
             var request = new DeleteTransactionRequest
             {
@@ -41,7 +41,7 @@ namespace Fina.Api.Endpoints.Transactions
                 : TypedResults.BadRequest(result);
         }
 
-        private static async Task<IResult> GetAllAsync(ITransactionHandler handler,
+        private static async Task<IResult> GetTransactionAllAsync(ITransactionHandler handler,
         [FromQuery] DateTime? startDate = null,
         [FromQuery] DateTime? endDate = null,
         [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
@@ -62,7 +62,7 @@ namespace Fina.Api.Endpoints.Transactions
                 : TypedResults.BadRequest(result);
         }
 
-        private static async Task<IResult> GetByIdAsync(ITransactionHandler handler, long id)
+        private static async Task<IResult> GetTransactionByIdAsync(ITransactionHandler handler, long id)
         {
             var request = new GetTransactionByIdRequest
             {
@@ -76,7 +76,7 @@ namespace Fina.Api.Endpoints.Transactions
                 : TypedResults.BadRequest(result);
         }
 
-        private static async Task<IResult> UpdateAsync(ITransactionHandler handler, UpdateTransactionRequest request, long id)
+        private static async Task<IResult> UpdateTransactionAsync(ITransactionHandler handler, UpdateTransactionRequest request, long id)
         {
             request.UserId = ApiConfiguration.UserId;
             request.Id = id;
