@@ -17,5 +17,7 @@ namespace Fina.Core.Requests.Transactions
         public decimal Amount { get; set; }
         [Required(ErrorMessage = "Categoria Inválida")]
         public long CategoryId { get; set; }
+        [Required(ErrorMessage = "Data inválida")]
+        public DateTime? PaidOrReceivedAt { get; set; }
     }
 }
